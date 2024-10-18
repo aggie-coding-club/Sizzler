@@ -2,7 +2,7 @@ import { Image,  Platform,View, Text, TextInput,TouchableOpacity,ActivityIndicat
 import React, { useState } from 'react';
 //import { Image, StyleSheet, Platform } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
+
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -102,7 +102,8 @@ export default function Loginscreen() {
         /> */}
         <TouchableOpacity
           style={styles.signInButton}
-          onPress={signInWithEmail}
+          onPress={handleLogin}
+          //onPress={signInWithEmail}
           disabled={loading}
         >
           {loading ? (
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   },
   reactLogo: {
     height: 250,
-    width: 400,
+    width: 390,
     bottom: 0,
     left: 0,
     position: 'absolute',
