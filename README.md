@@ -2,19 +2,27 @@
 
 ## Get started
 
+Th project runs with the expectation you have Expo Go installed already from either the App Store or Google Play Store.
+
 1. Clone Files
 
-   ```bash HTTPS
+   **HTTPS**
+
+   ```bash
    git clone https://github.com/aggie-coding-club/Sizzler.git
    ```
-   ```bash SSH
+
+   **SSH**
+
+   ```bash
    git clone git@github.com:aggie-coding-club/Sizzler.git
    ```
-   ```bash Github CLI
-   gh repo clone aggie-coding-club/Sizzler
-   ```
 
-2. 
+2. Enter Project
+
+   ```bash
+   cd Sizzler
+   ```
 
 3. Install dependencies
 
@@ -27,6 +35,8 @@
    ```bash
    npm run start
    ```
+
+5. Scan QR code with phone to open application in Expo Go
 
 ## .env Setup
 
@@ -90,3 +100,18 @@ Design is based on work done in Figma. Contact Art Young if you are a working me
 
 ## Debugging
 
+### Mismatched Expo SDK Version
+
+There is a possibility that you may run into a mismatched version for expo go. Sizzler currently is running on Expo SDK 52. Whether you need to downgrade or upgrade your application version, simply run these commands to realign your repository. If any other issues arise, please contact Andrew Mao or Art Young for assistance.
+
+```bash
+npm install expo@52
+```
+
+```bash
+npm expo install --fix
+```
+
+```bash
+npm install
+```
