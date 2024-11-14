@@ -2,7 +2,7 @@
 
 ## Get started
 
-The project runs with the expectation you have Expo Go installed already from either the App Store or Google Play Store.
+The project runs with the expectation you have Expo Go installed already from either the App Store or Google Play Store. Additionally, it is assumed that you already have node installed with some package manager. This document will assume you are using `npm`, so change the commands as needed.
 
 1. Clone Files
 
