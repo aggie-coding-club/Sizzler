@@ -2,7 +2,7 @@
 
 ## Get started
 
-Th project runs with the expectation you have Expo Go installed already from either the App Store or Google Play Store.
+The project runs with the expectation you have Expo Go installed already from either the App Store or Google Play Store.
 
 1. Clone Files
 
