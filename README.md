@@ -46,16 +46,21 @@ Correctly linking the backend and frontend will require correct .env setup.
 
    ```bash
    ── app
-   │   └── (tabs)
+   │   ├── (tabs)
+   │   └── ...
    ├── assets
    │   ├── fonts
    │   └── images
    ├── components
    │   ├── __tests__
-   │   └── navigation
+   │   ├── navigation
+   │   └── ...
    ├── constants
+   │   └── ...
    ├── hooks
+   │   └── ...
    ├── node_modules
+   │   └── ...
    ├── README.md
    ├── package.json
    ├── .gitignore
@@ -65,7 +70,7 @@ Correctly linking the backend and frontend will require correct .env setup.
 
 2. Add environment variables to .env
 
-   Replace `<Your WiFi IP>` with your local wifi IP. If you are using the TAMU WiFi, then leave the option blank as `EXPO_PUBLIC_WIFI_HOST=`
+   Replace `<Your WiFi IP>` with your local WiFi IP. If you are using the TAMU WiFi, then leave the option blank as `EXPO_PUBLIC_WIFI_HOST=`
 
    ```txt
    EXPO_PUBLIC_BACKEND_PORT=3000
@@ -104,9 +109,11 @@ Design is based on work done in Figma. Contact Art Young if you are a working me
 
 ## Debugging
 
+For any unaddressed issues, please contact Andrew Mao or Art Young for assistance.
+
 ### Mismatched Expo SDK Version
 
-There is a possibility that you may run into a mismatched version for expo go. Sizzler currently is running on Expo SDK 52. Whether you need to downgrade or upgrade your application version, simply run these commands to realign your repository. If any other issues arise, please contact Andrew Mao or Art Young for assistance.
+There is a possibility that you may run into a mismatched version for expo go. Sizzler currently is running on Expo SDK 52. Whether you need to downgrade or upgrade your application version, simply run these commands to realign your repository.
 
 ```bash
 npm install expo@52
