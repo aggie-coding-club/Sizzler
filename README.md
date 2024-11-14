@@ -63,13 +63,17 @@ Correctly linking the backend and frontend will require correct .env setup.
    └── ...
    ```
 
-2. Add environment variables to .env (note that all variables must begin with EXPO_PUBLIC_)
+2. Add environment variables to .env
+
+   Replace `<Your WiFi IP>` with your local wifi IP. If you are using the TAMU WiFi, then leave the option blank as `EXPO_PUBLIC_WIFI_HOST=`
 
    ```txt
    EXPO_PUBLIC_BACKEND_PORT=3000
    EXPO_PUBLIC_TAMU_WIFI_HOST=10.247.6.151
-   EXPO_PUBLIC_LOCAL_WIFI_HOST=<Your Local WiFi IP>
+   EXPO_PUBLIC_WIFI_HOST=<Your Local WiFi IP>
    ```
+
+   **all variables must begin with EXPO_PUBLIC_**
 
 3. Get local WiFi IP
 
