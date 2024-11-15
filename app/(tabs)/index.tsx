@@ -5,10 +5,37 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Button } from "react-native-paper";
-import { getUsers } from "@/api/api";
+import { getUsers } from "@/api/users";
+import {
+	getPostByID,
+	getPosts,
+	getPostsByUserID,
+	createPost,
+	updatePost,
+	deletePost,
+} from "@/api/posts";
+import { Post } from "@/constants/ResponseTypes";
+import { v4 as uuidv4 } from "uuid";
 
 export default function HomeScreen() {
-  return (
+	const testPost: Post = {
+		id: "7c9a2d6f-8e67-4ffe-aa6e-895c66871dbd",
+		created_at: new Date("2024-11-15T06:29:02.822633+00:00"),
+		user_id: "94eb06b1-35c4-426c-a8cb-e610dd4ed5cf",
+		title: "test title",
+		caption: "test caption",
+		media_links: null,
+	};
+	const updatedPost: Post = {
+		id: "7c9a2d6f-8e67-4ffe-aa6e-895c66871dbd",
+		created_at: new Date(),
+		user_id: "94eb06b1-35c4-426c-a8cb-e610dd4ed5cf",
+		title: "hello",
+		caption: "testing caption hello",
+		media_links: null,
+	};
+
+	return (
 		<ParallaxScrollView
 			headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
 			headerImage={
@@ -22,7 +49,27 @@ export default function HomeScreen() {
 				<ThemedText type="title">Welcome to sizzler</ThemedText>
 				<HelloWave />
 			</ThemedView>
-			<Button onPress={getUsers}>API</Button>
+			<Button onPress={getUsers}>Get Users</Button>
+			<Button onPress={getPosts}>Get Posts</Button>
+			<Button
+				onPress={() => getPostByID("688ae4d0-2401-4ad8-af0d-6f268467e88a")}
+			>
+				Get Specific Post
+			</Button>
+			<Button
+				onPress={() => getPostsByUserID("94eb06b1-35c4-426c-a8cb-e610dd4ed5cf")}
+			>
+				Get Posts By User
+			</Button>
+			<Button onPress={() => createPost(testPost)}>Create Post</Button>
+			<Button onPress={() => updatePost(updatedPost)}>Update Post</Button>
+			<Button
+				onPress={() => {
+					deletePost(testPost);
+				}}
+			>
+				Delete Post
+			</Button>
 			<ThemedView style={styles.stepContainer}>
 				<ThemedText type="subtitle">Step 1: Try it</ThemedText>
 				<ThemedText>
