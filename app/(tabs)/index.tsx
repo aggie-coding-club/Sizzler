@@ -1,3 +1,4 @@
+import LogIn from '../auth/log_in';
 import React from "react";
 import {
   Image,
@@ -7,11 +8,19 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Button,
+  Platform
 } from "react-native";
+import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Card, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/EvilIcons";
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
+  const router = useRouter();
   const dummyPostList = [
     {
       user: "user123",
