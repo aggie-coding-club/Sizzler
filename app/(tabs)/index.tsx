@@ -1,78 +1,215 @@
-import { Image, StyleSheet, Platform, Button } from 'react-native';
+import LogIn from '../auth/log_in';
+import React from "react";
+import {
+  Image,
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Button,
+  Platform
+} from "react-native";
 import { useRouter } from 'expo-router';
 import { Link } from 'expo-router';
-
-import LogIn from '../auth/log_in';
-
-import { HelloWave } from '@/components/HelloWave';
+import { Card, Text } from "react-native-paper";
+import Icon from "react-native-vector-icons/EvilIcons";
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
   const router = useRouter();
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>
-          <Button title="go to login" onPress={()=> router.push("../auth/log_in")}></Button>
-          <Button title="go to sign up" onPress={()=> router.push("../auth/sign_up")}></Button>
+  const dummyPostList = [
+    {
+      user: "user123",
+      userProfile: "https://via.placeholder.com/30x30",
+      title: "Header of the post",
+      caption:
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
+      mediaLinks: ["https://via.placeholder.com/200x200"],
+    },
+    {
+      user: "user123",
+      userProfile: "https://via.placeholder.com/30x30",
+      title: "Header of the post",
+      caption:
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
+      mediaLinks: ["https://via.placeholder.com/200x200"],
+    },
+    {
+      user: "user123",
+      userProfile: "https://via.placeholder.com/30x30",
+      title: "Header of the post",
+      caption:
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
+      mediaLinks: ["https://via.placeholder.com/200x200"],
+    },
+    {
+      user: "user123",
+      userProfile: "https://via.placeholder.com/30x30",
+      title: "Header of the post",
+      caption:
+        "Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
+      mediaLinks: ["https://via.placeholder.com/200x200"],
+    },
+  ];
 
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/images/logo.png")}
+          style={styles.logo}
+        />
+      </View>
+      {/* Search Bar */}
+      <View style={styles.searchBarContainer}>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search..."
+          onChangeText={(text) => console.log(text)}
+        />
+      </View>
+      {/* Use .map() to render each post as a card */}
+
+      {dummyPostList.map((post, index) => (
+        <Card key={index} style={styles.card}>
+          <Card.Content>
+            <View style={styles.postHeader}>
+              <Image
+                source={{ uri: post.userProfile }}
+                style={styles.profileImage}
+              />
+              <View style={styles.userInfo}>
+                <Text variant="titleSmall">{post.user}</Text>
+              </View>
+            </View>
+
+            <Text variant="titleLarge">{post.title}</Text>
+            <Text variant="bodyMedium">{post.caption}</Text>
+
+            {/* Render media links if any */}
+            {post.mediaLinks.length > 0 && (
+              <TouchableOpacity onPress={() => console.log("image tapped")}>
+                <View style={styles.mediaContainer}>
+                  {post.mediaLinks.map((link, idx) => (
+                    <Image
+                      key={idx}
+                      source={{ uri: link }}
+                      style={styles.mediaImage}
+                    />
+                  ))}
+                </View>
+              </TouchableOpacity>
+            )}
+          </Card.Content>
+          {/* Action Buttons (Like, Save, Comment, Share) */}
+          <View style={styles.actionContainer}>
+            <TouchableOpacity style={styles.actionButton}>
+              <Icon name="heart" size={30} color="#fa8072" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <Icon name="star" size={30} color="#FF9800" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <Icon name="comment" size={30} color="#696969" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <Icon name="share-apple" size={30} color="#696969" />
+            </TouchableOpacity>
+          </View>
+        </Card>
+      ))}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    paddingTop: 50,
+    paddingBottom: 16,
+    backgroundColor: "#faebd7",
   },
-  stepContainer: {
-    gap: 8,
+  logo: {
+    width: 200,
+    height: 80,
+    resizeMode: "contain",
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  postHeader: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  searchBar: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingLeft: 10,
+    fontSize: 16,
+    backgroundColor: "#ffff",
+  },
+  searchBarContainer: {
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  card: {
+    marginBottom: 12,
+    marginTop: 12,
+    borderRadius: 10,
+    padding: 12,
+    width: "90%",
+    elevation: 2,
+    alignSelf: "center",
+    backgroundColor: "#ffff",
+  },
+  profileImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  userInfo: {
+    flexDirection: "column",
+  },
+  mediaContainer: {
+    marginTop: 12,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  mediaImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actionContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#f0f0f0",
+  },
+  actionButton: {
+    alignItems: "center",
+    paddingVertical: 5,
+  },
+  actionText: {
+    fontSize: 14,
+    color: "#555",
+    marginTop: 5,
   },
 });
