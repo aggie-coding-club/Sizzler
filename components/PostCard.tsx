@@ -1,23 +1,17 @@
 import { PostCardProps } from "@/constants/PostCardTypes";
 import React from "react";
 import { Image, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Avatar, Card, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/EvilIcons";
 
 const PostCard = ({ post }: PostCardProps) => {
+	const LeftContent = (props: { size: number }) => (
+		<Avatar.Icon {...props} icon={post.userProfile} />
+	);
 	return (
 		<Card style={styles.card}>
+			<Card.Title title={post.user} left={() => LeftContent({ size: 35 })} />
 			<Card.Content>
-				<View style={styles.postHeader}>
-					<Image
-						source={{ uri: post.userProfile }}
-						style={styles.profileImage}
-					/>
-					<View style={styles.userInfo}>
-						<Text variant="titleSmall">{post.user}</Text>
-					</View>
-				</View>
-
 				<Text variant="titleLarge">{post.title}</Text>
 				<Text variant="bodyMedium">{post.caption}</Text>
 
@@ -65,11 +59,8 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	card: {
-		marginBottom: 12,
-		marginTop: 12,
-		borderRadius: 10,
-		padding: 12,
-		width: "90%",
+		marginBlock: 12,
+		borderRadius: 20,
 		elevation: 2,
 		alignSelf: "center",
 		backgroundColor: "#ffff",

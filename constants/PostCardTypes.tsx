@@ -1,4 +1,4 @@
-export interface Post {
+export interface UserPost {
 	user: string;
 	userProfile: string;
 	title: string;
@@ -7,5 +7,5 @@ export interface Post {
 }
 
 export interface PostCardProps {
-	post: Post;
+	post: UserPost;
 }

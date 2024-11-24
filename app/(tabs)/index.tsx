@@ -1,45 +1,16 @@
 import LogIn from '../auth/log_in';
 import React from "react";
-import { Image, StyleSheet, View, TextInput, ScrollView } from "react-native";
+import { Image, StyleSheet, View, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import PostCard from "@/components/PostCard";
+import { fakePostsData } from "@/constants/TestData";
+import { Searchbar } from "react-native-paper";
+import HorizontalScroll from "@/components/HorizontalScroll";
 
 export default function HomeScreen() {
 	const router = useRouter();
-	const dummyPostList = [
-		{
-			user: "user123",
-			userProfile: "https://via.placeholder.com/30x30",
-			title: "Header of the post",
-			caption:
-				"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
-			mediaLinks: ["https://via.placeholder.com/200x200"],
-		},
-		{
-			user: "user123",
-			userProfile: "https://via.placeholder.com/30x30",
-			title: "Header of the post",
-			caption:
-				"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
-			mediaLinks: ["https://via.placeholder.com/200x200"],
-		},
-		{
-			user: "user123",
-			userProfile: "https://via.placeholder.com/30x30",
-			title: "Header of the post",
-			caption:
-				"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
-			mediaLinks: ["https://via.placeholder.com/200x200"],
-		},
-		{
-			user: "user123",
-			userProfile: "https://via.placeholder.com/30x30",
-			title: "Header of the post",
-			caption:
-				"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
-			mediaLinks: ["https://via.placeholder.com/200x200"],
-		},
-	];
+
+	const [searchQuery, setSearchQuery] = React.useState<string>("");
 
 	return (
 		<ScrollView style={styles.container}>
@@ -49,26 +20,32 @@ export default function HomeScreen() {
 					style={styles.logo}
 				/>
 			</View>
+
 			{/* Search Bar */}
 			<View style={styles.searchBarContainer}>
-				<TextInput
-					style={styles.searchBar}
+				<Searchbar
 					placeholder="Search..."
-					onChangeText={(text) => console.log(text)}
+					onChangeText={setSearchQuery}
+					value={searchQuery}
 				/>
 			</View>
-			{/* Use .map() to render each post as a card */}
 
-			{dummyPostList.map((post, index) => (
-				<PostCard key={index} post={post} />
-			))}
+			<View style={styles.recommendationBarContainer}>
+				<HorizontalScroll />
+			</View>
+
+			<View style={styles.postsContainer}>
+				{/* Use .map() to render each post as a card */}
+				{fakePostsData.map((post, index) => (
+					<PostCard key={index} post={post} />
+				))}
+			</View>
 		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		paddingTop: 50,
 		paddingBottom: 16,
 		backgroundColor: "#faebd7",
@@ -92,7 +69,13 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ffff",
 	},
 	searchBarContainer: {
-		marginHorizontal: 20,
+		paddingInline: 15,
 		marginBottom: 10,
+	},
+	recommendationBarContainer: {
+		paddingBlock: 5,
+	},
+	postsContainer: {
+		paddingInline: 15,
 	},
 });
