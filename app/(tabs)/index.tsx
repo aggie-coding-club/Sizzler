@@ -84,7 +84,6 @@ export default function HomeScreen() {
 		caption: "testing caption hello",
 		media_links: null,
 	};
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.logoContainer}>
