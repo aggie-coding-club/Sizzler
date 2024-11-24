@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Button,
   Platform
 } from "react-native";
 import { useRouter } from 'expo-router';
@@ -18,6 +17,18 @@ import Icon from "react-native-vector-icons/EvilIcons";
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Button } from "react-native-paper";
+import { getUsers } from "@/api/users";
+import {
+	getPostByID,
+	getPosts,
+	getPostsByUserID,
+	createPost,
+	updatePost,
+	deletePost,
+} from "@/api/posts";
+import { Post } from "@/constants/ResponseTypes";
+import { v4 as uuidv4 } from "uuid";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -56,6 +67,23 @@ export default function HomeScreen() {
     },
   ];
 
+	const testPost: Post = {
+		id: "7c9a2d6f-8e67-4ffe-aa6e-895c66871dbd",
+		created_at: new Date("2024-11-15T06:29:02.822633+00:00"),
+		user_id: "94eb06b1-35c4-426c-a8cb-e610dd4ed5cf",
+		title: "test title",
+		caption: "test caption",
+		media_links: null,
+	};
+
+	const updatedPost: Post = {
+		id: "7c9a2d6f-8e67-4ffe-aa6e-895c66871dbd",
+		created_at: new Date(),
+		user_id: "94eb06b1-35c4-426c-a8cb-e610dd4ed5cf",
+		title: "hello",
+		caption: "testing caption hello",
+		media_links: null,
+	};
   return (
     <ScrollView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -72,8 +100,30 @@ export default function HomeScreen() {
           onChangeText={(text) => console.log(text)}
         />
       </View>
-      {/* Use .map() to render each post as a card */}
 
+			<Button onPress={getUsers}>Get Users</Button>
+			<Button onPress={getPosts}>Get Posts</Button>
+			<Button
+				onPress={() => getPostByID("688ae4d0-2401-4ad8-af0d-6f268467e88a")}
+			>
+				Get Specific Post
+			</Button>
+			<Button
+				onPress={() => getPostsByUserID("94eb06b1-35c4-426c-a8cb-e610dd4ed5cf")}
+			>
+				Get Posts By User
+			</Button>
+			<Button onPress={() => createPost(testPost)}>Create Post</Button>
+			<Button onPress={() => updatePost(updatedPost)}>Update Post</Button>
+			<Button
+				onPress={() => {
+					deletePost(testPost);
+				}}
+			>
+				Delete Post
+			</Button>
+
+      {/* Use .map() to render each post as a card */}
       {dummyPostList.map((post, index) => (
         <Card key={index} style={styles.card}>
           <Card.Content>
