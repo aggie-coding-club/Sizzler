@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	card: {
+		width: "100%",
 		marginBlock: 12,
 		borderRadius: 20,
 		elevation: 2,

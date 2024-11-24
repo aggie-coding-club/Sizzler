@@ -1,20 +1,55 @@
-import LogIn from '../auth/log_in';
-import React from "react";
-import { Image, StyleSheet, View, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+	Image,
+	StyleSheet,
+	View,
+	TextInput,
+	ScrollView,
+	TouchableOpacity,
+} from "react-native";
 import { useRouter } from "expo-router";
-import PostCard from "@/components/PostCard";
 import { fakePostsData } from "@/constants/TestData";
-import { Searchbar } from "react-native-paper";
+import { Avatar, Card, Searchbar } from "react-native-paper";
+import PostCard from "@/components/PostCard";
 import HorizontalScroll from "@/components/HorizontalScroll";
+import { Text } from "react-native-paper";
+import Icon from "react-native-vector-icons/EvilIcons";
 
 export default function HomeScreen() {
 	const router = useRouter();
 
 	const [searchQuery, setSearchQuery] = React.useState<string>("");
+	const [postText, setPostText] = useState("");
+	const [dummyPostList, setDummyPostList] = useState(fakePostsData);
+
+	const currentUser = {
+		user: "currentUser",
+		userProfile: "https://via.placeholder.com/30x30",
+	};
+
+	const handlePostSubmit = () => {
+		if (postText.trim()) {
+			setDummyPostList([
+				{
+					user: "currentUser",
+					userProfile: "https://via.placeholder.com/30x30",
+					title: "New Post",
+					caption: postText,
+					mediaLinks: [],
+				},
+				...dummyPostList,
+			]);
+			setPostText("");
+		}
+	};
+
+	const CreatePostLeftContent = (props: { size: number }) => (
+		<Avatar.Icon {...props} icon={currentUser.userProfile} />
+	);
 
 	return (
 		<ScrollView style={styles.container}>
-			<View style={styles.logoContainer}>
+			<View style={[styles.viewContainer, styles.logoContainer]}>
 				<Image
 					source={require("@/assets/images/logo.png")}
 					style={styles.logo}
@@ -22,21 +57,55 @@ export default function HomeScreen() {
 			</View>
 
 			{/* Search Bar */}
-			<View style={styles.searchBarContainer}>
+			<View style={[styles.viewContainer, styles.searchBarContainer]}>
 				<Searchbar
 					placeholder="Search..."
 					onChangeText={setSearchQuery}
 					value={searchQuery}
+					// style={styles.searchBar}
 				/>
 			</View>
 
-			<View style={styles.recommendationBarContainer}>
+			{/* Recommendation Bar */}
+			<View style={[styles.viewContainer, styles.recommendationBarContainer]}>
 				<HorizontalScroll />
 			</View>
 
-			<View style={styles.postsContainer}>
-				{/* Use .map() to render each post as a card */}
-				{fakePostsData.map((post, index) => (
+			{/* Create Post Form */}
+			<View style={[styles.viewContainer, styles.postFormContainer]}>
+				<Card style={styles.postFormCard}>
+					<Card.Title
+						title={currentUser.user}
+						left={() => CreatePostLeftContent({ size: 35 })}
+					/>
+					<Card.Content>
+						<TextInput
+							style={styles.postInput}
+							placeholder="What's happening?"
+							placeholderTextColor="gray"
+							multiline
+							value={postText}
+							onChangeText={(text) => setPostText(text)}
+							maxLength={280}
+						/>
+						<TouchableOpacity style={styles.imageButton}>
+							<Icon name="image" size={30} color="#696969" />
+						</TouchableOpacity>
+						<View style={styles.postActions}>
+							<TouchableOpacity
+								style={styles.postButton}
+								onPress={handlePostSubmit}
+							>
+								<Text style={styles.postButtonText}>Post</Text>
+							</TouchableOpacity>
+						</View>
+					</Card.Content>
+				</Card>
+			</View>
+
+			{/* List of Posts */}
+			<View style={[styles.viewContainer, styles.postsContainer]}>
+				{dummyPostList.map((post, index) => (
 					<PostCard key={index} post={post} />
 				))}
 			</View>
@@ -50,6 +119,11 @@ const styles = StyleSheet.create({
 		paddingBottom: 16,
 		backgroundColor: "#faebd7",
 	},
+	viewContainer: {
+		maxWidth: 650,
+		width: "90%",
+		marginInline: "auto",
+	},
 	logo: {
 		width: 200,
 		height: 80,
@@ -59,17 +133,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginBottom: 20,
 	},
-	searchBar: {
-		height: 40,
-		borderColor: "#ccc",
-		borderWidth: 1,
-		borderRadius: 8,
-		paddingLeft: 10,
-		fontSize: 16,
-		backgroundColor: "#ffff",
+	postHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginBottom: 8,
 	},
 	searchBarContainer: {
-		paddingInline: 15,
 		marginBottom: 10,
 	},
 	recommendationBarContainer: {
@@ -77,5 +146,62 @@ const styles = StyleSheet.create({
 	},
 	postsContainer: {
 		paddingInline: 15,
+		marginBottom: 10,
+		alignSelf: "center",
+	},
+	postFormContainer: {
+		paddingInline: 15,
+		marginBottom: 10,
+		alignSelf: "center",
+	},
+	postFormCard: {
+		width: "100%",
+		marginBlock: 12,
+		borderRadius: 20,
+		padding: 12,
+		elevation: 2,
+		alignSelf: "center",
+		backgroundColor: "#ffff",
+	},
+	postInput: {
+		height: 100,
+		borderColor: "#ccc",
+		borderWidth: 1,
+		borderRadius: 8,
+		padding: 10,
+		fontSize: 16,
+		textAlignVertical: "top",
+	},
+	postActions: {
+		marginTop: 10,
+		flexDirection: "row",
+		justifyContent: "flex-end",
+	},
+	postButton: {
+		backgroundColor: "#fa8072",
+		paddingHorizontal: 20,
+		paddingVertical: 8,
+		borderRadius: 25,
+	},
+	postButtonText: {
+		color: "white",
+		fontWeight: "bold",
+	},
+	imageButton: {
+		paddingHorizontal: 10,
+		paddingVertical: 5,
+	},
+	profileImage: {
+		width: 30,
+		height: 30,
+		borderRadius: 20,
+		marginRight: 10,
+	},
+	userInfo: {
+		flexDirection: "column",
+	},
+	usernameText: {
+		fontSize: 16,
+		fontWeight: "bold",
 	},
 });
