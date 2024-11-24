@@ -1,3 +1,4 @@
+import { useState } from "react";
 import React from "react";
 import {
   Image,
@@ -6,13 +7,14 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  Animated,
 } from "react-native";
 import { Card, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/EvilIcons";
 
 export default function HomeScreen() {
-  const dummyPostList = [
+  const [postText, setPostText] = useState("");
+  const [dummyPostList, setDummyPostList] = useState([
     {
       user: "user123",
       userProfile: "https://via.placeholder.com/30x30",
@@ -45,8 +47,28 @@ export default function HomeScreen() {
         "Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
       mediaLinks: ["https://via.placeholder.com/200x200"],
     },
-  ];
+  ]);
 
+  const currentUser = {
+    user: "currentUser",
+    userProfile: "https://via.placeholder.com/30x30",
+  };
+
+  const handlePostSubmit = () => {
+    if (postText.trim()) {
+      setDummyPostList([
+        {
+          user: "currentUser",
+          userProfile: "https://via.placeholder.com/30x30",
+          title: "New Post",
+          caption: postText,
+          mediaLinks: [],
+        },
+        ...dummyPostList,
+      ]);
+      setPostText("");
+    }
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -60,11 +82,46 @@ export default function HomeScreen() {
         <TextInput
           style={styles.searchBar}
           placeholder="Search..."
+          placeholderTextColor="gray"
           onChangeText={(text) => console.log(text)}
         />
       </View>
-      {/* Use .map() to render each post as a card */}
 
+      {/*posting form*/}
+      <View style={styles.postFormContainer}>
+        <View style={styles.postHeader}>
+          <Image
+            source={{ uri: currentUser.userProfile }}
+            style={styles.profileImage}
+          />
+          <View style={styles.userInfo}>
+            <Text style={styles.usernameText}>{currentUser.user}</Text>{" "}
+            {/* Display user name */}
+          </View>
+        </View>
+        <TextInput
+          style={styles.postInput}
+          placeholder="What's happening?"
+          placeholderTextColor="gray"
+          multiline
+          value={postText}
+          onChangeText={(text) => setPostText(text)}
+          maxLength={280}
+        />
+        <TouchableOpacity style={styles.imageButton}>
+          <Icon name="image" size={30} color="#696969" />
+        </TouchableOpacity>
+        <View style={styles.postActions}>
+          <TouchableOpacity
+            style={styles.postButton}
+            onPress={handlePostSubmit}
+          >
+            <Text style={styles.postButtonText}>Post</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Use .map() to render each post as a card */}
       {dummyPostList.map((post, index) => (
         <Card key={index} style={styles.card}>
           <Card.Content>
@@ -145,7 +202,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 25,
     paddingLeft: 10,
     fontSize: 16,
     backgroundColor: "#ffff",
@@ -153,6 +210,46 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     marginHorizontal: 20,
     marginBottom: 10,
+    width: "90%",
+    alignSelf: "center",
+  },
+  postFormContainer: {
+    marginBottom: 12,
+    marginTop: 12,
+    borderRadius: 10,
+    padding: 12,
+    width: "90%",
+    elevation: 2,
+    alignSelf: "center",
+    backgroundColor: "#ffff",
+  },
+  postInput: {
+    height: 100,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 16,
+    textAlignVertical: "top",
+  },
+  postActions: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  postButton: {
+    backgroundColor: "#fa8072",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 25,
+  },
+  postButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  imageButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   card: {
     marginBottom: 12,
@@ -172,6 +269,10 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: "column",
+  },
+  usernameText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   mediaContainer: {
     marginTop: 12,
