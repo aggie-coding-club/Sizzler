@@ -11,7 +11,8 @@ import { Card, Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/EvilIcons";
 
 export default function HomeScreen() {
-	const dummyPostList = [
+	const [postText, setPostText] = useState("");
+	const [dummyPostList, setDummyPostList] = useState([
 		{
 			user: "user123",
 			userProfile: "https://via.placeholder.com/30x30",
@@ -44,8 +45,28 @@ export default function HomeScreen() {
 				"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
 			mediaLinks: ["https://via.placeholder.com/200x200"],
 		},
-	];
+	]);
 
+	const currentUser = {
+		user: "currentUser",
+		userProfile: "https://via.placeholder.com/30x30",
+	};
+
+	const handlePostSubmit = () => {
+		if (postText.trim()) {
+			setDummyPostList([
+				{
+					user: "currentUser",
+					userProfile: "https://via.placeholder.com/30x30",
+					title: "New Post",
+					caption: postText,
+					mediaLinks: [],
+				},
+				...dummyPostList,
+			]);
+			setPostText("");
+		}
+	};
 	return (
 		<ScrollView style={styles.container}>
 			<View style={styles.logoContainer}>
@@ -63,6 +84,41 @@ export default function HomeScreen() {
 					onChangeText={(text) => console.log(text)}
 				/>
 			</View>
+
+			{/*posting form*/}
+			<View style={styles.postFormContainer}>
+				<View style={styles.postHeader}>
+					<Image
+						source={{ uri: currentUser.userProfile }}
+						style={styles.profileImage}
+					/>
+					<View style={styles.userInfo}>
+						<Text style={styles.usernameText}>{currentUser.user}</Text>{" "}
+						{/* Display user name */}
+					</View>
+				</View>
+				<TextInput
+					style={styles.postInput}
+					placeholder="What's happening?"
+					placeholderTextColor="gray"
+					multiline
+					value={postText}
+					onChangeText={(text) => setPostText(text)}
+					maxLength={280}
+				/>
+				<TouchableOpacity style={styles.imageButton}>
+					<Icon name="image" size={30} color="#696969" />
+				</TouchableOpacity>
+				<View style={styles.postActions}>
+					<TouchableOpacity
+						style={styles.postButton}
+						onPress={handlePostSubmit}
+					>
+						<Text style={styles.postButtonText}>Post</Text>
+					</TouchableOpacity>
+				</View>
+			</View>
+
 			{/* Use .map() to render each post as a card */}
 			{dummyPostList.map((post, index) => (
 				<Card key={index} style={styles.card}>
