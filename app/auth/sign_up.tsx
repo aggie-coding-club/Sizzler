@@ -3,11 +3,12 @@ import { useRouter } from 'expo-router';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { TextInput, SegmentedButtons, Divider } from 'react-native-paper';
+import { useAuth } from '@/components/AuthProvider';
 import React from 'react';
 
 function SignUp() {
-
   const router = useRouter();
+  const { isLoggedIn, logIn } = useAuth();
   // for both
   const [accountType, setAccountType] = React.useState('consumer');
   const [email, setEmail] = React.useState('');
@@ -30,6 +31,11 @@ function SignUp() {
     // fetch call that sends email, username, password etc.
     // if our sign up is successful then we 
     router.push("../(tabs)")
+    logIn();
+  }
+  if (isLoggedIn) {
+    router.push("../(tabs)");
+    return null;
   }
 
   

@@ -3,10 +3,12 @@ import { useRouter } from 'expo-router';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { TextInput } from 'react-native-paper';
+import { useAuth } from '@/components/AuthProvider';
 import React from 'react';
 
-function LogIn() {
 
+function LogIn() {
+  const { isLoggedIn, logIn } = useAuth();
   const router = useRouter();
 
   const [emailUser, setEmailUser] = React.useState('');
@@ -17,8 +19,13 @@ function LogIn() {
     // return to home page if successful login
     console.log("Username/Email: " + emailUser);
     console.log("Password: " + pass);
-
     router.push("../(tabs)");
+    logIn();
+  }
+
+  if (isLoggedIn) {
+    router.push('../(tabs)');
+    return null;
   }
 
 
