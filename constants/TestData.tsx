@@ -1,4 +1,6 @@
-export const fakePostsData = [
+import { DashboardPost } from "./PostCardTypes";
+
+export const fakePostsData: DashboardPost[] = [
 	{
 		user: "user123",
 		userProfile: "https://via.placeholder.com/30x30",
@@ -6,6 +8,7 @@ export const fakePostsData = [
 		caption:
 			"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
 		mediaLinks: ["https://via.placeholder.com/200x200"],
+		createdAt: new Date(),
 	},
 	{
 		user: "user123",
@@ -14,6 +17,7 @@ export const fakePostsData = [
 		caption:
 			"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
 		mediaLinks: ["https://via.placeholder.com/200x200"],
+		createdAt: new Date(),
 	},
 	{
 		user: "user123",
@@ -22,6 +26,7 @@ export const fakePostsData = [
 		caption:
 			"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
 		mediaLinks: ["https://via.placeholder.com/200x200"],
+		createdAt: new Date(),
 	},
 	{
 		user: "user123",
@@ -30,6 +35,7 @@ export const fakePostsData = [
 		caption:
 			"Lorem ipsum odor amet, consectetuer adipiscing elit. Fringilla quam finibus primis, viverra amet arcu. ",
 		mediaLinks: ["https://via.placeholder.com/200x200"],
+		createdAt: new Date(),
 	},
 ];
 

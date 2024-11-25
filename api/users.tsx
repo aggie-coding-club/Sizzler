@@ -10,13 +10,11 @@ export const getUsers = async (): Promise<User[] | undefined> => {
 			},
 		})
 		.then((response) => {
-			console.log(response);
 			return response.data;
 		})
 		.catch((error) => {
 			console.error("Error fetching data:", error);
 			return undefined;
 		});
-	console.log(response);
 	return response;
 };

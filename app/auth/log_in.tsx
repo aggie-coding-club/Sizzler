@@ -13,13 +13,13 @@ function LogIn() {
   const [pass, setPass] = React.useState('');
 
   function HandleLogin() {
-    // send username or email and pass to backend
-    // return to home page if successful login
-    console.log("Username/Email: " + emailUser);
-    console.log("Password: " + pass);
+		// send username or email and pass to backend
+		// return to home page if successful login
+		// console.log("Username/Email: " + emailUser);
+		// console.log("Password: " + pass);
 
-    router.push("../(tabs)");
-  }
+		router.push("../(tabs)");
+	}
 
 
   return (

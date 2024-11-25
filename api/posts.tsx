@@ -1,23 +1,41 @@
 import axios from "axios";
 import { Post, User } from "@/constants/ResponseTypes";
 import { CONFIG } from "@/config";
+import { DashboardPost } from "@/constants/PostCardTypes";
 
 export const getPosts = async (): Promise<Post[] | undefined> => {
 	const response = await axios
-		.get<Post[]>(`${CONFIG.BACKEND_URL}/posts/read`, {
+		.get<Post[]>(`${CONFIG.BACKEND_URL}/posts/getPosts`, {
 			headers: {
 				// Authorization: `Bearer ${}`,
 			},
 		})
 		.then((response) => {
-			console.log(response);
 			return response.data;
 		})
 		.catch((error) => {
 			console.error("Error fetching data:", error);
 			return undefined;
 		});
-	console.log(response);
+	return response;
+};
+
+export const getDashboardPosts = async (): Promise<
+	DashboardPost[] | undefined
+> => {
+	const response = await axios
+		.get<DashboardPost[]>(`${CONFIG.BACKEND_URL}/posts/getDashboardPosts`, {
+			headers: {
+				// Authorization: `Bearer ${}`,
+			},
+		})
+		.then((response) => {
+			return response.data;
+		})
+		.catch((error) => {
+			console.error("Error fetching data:", error);
+			return undefined;
+		});
 	return response;
 };
 
@@ -31,21 +49,18 @@ export const getPostByID = async (
 			},
 		})
 		.then((response) => {
-			console.log(response);
 			return response.data;
 		})
 		.catch((error) => {
 			console.error("Error fetching data:", error);
 			return undefined;
 		});
-	console.log(response);
 	return response;
 };
 
 export const getPostsByUserID = async (
 	userID: string
 ): Promise<Post[] | undefined> => {
-	console.log(`getUserByID: ${CONFIG.BACKEND_URL}/posts/read/user/${userID}`);
 	const response = await axios
 		.get<Post[]>(`${CONFIG.BACKEND_URL}/posts/read/user/${userID}`, {
 			headers: {
@@ -53,14 +68,12 @@ export const getPostsByUserID = async (
 			},
 		})
 		.then((response) => {
-			console.log(response);
 			return response.data;
 		})
 		.catch((error) => {
 			console.error("Error fetching data:", error);
 			return undefined;
 		});
-	console.log(response);
 	return response;
 };
 
@@ -91,7 +104,6 @@ export const updatePost = async (post: Post) => {
 };
 
 export const deletePost = async (post: Post) => {
-	console.log("delete:", post);
 	await axios
 		.post<Post>(`${CONFIG.BACKEND_URL}/posts/delete`, post, {
 			headers: {

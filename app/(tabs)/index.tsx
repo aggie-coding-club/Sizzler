@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Image,
 	StyleSheet,
@@ -14,13 +14,25 @@ import PostCard from "@/components/PostCard";
 import HorizontalScroll from "@/components/HorizontalScroll";
 import { Text } from "react-native-paper";
 import Icon from "react-native-vector-icons/EvilIcons";
+import { DashboardPost } from "@/constants/PostCardTypes";
+import { getDashboardPosts } from "@/api/posts";
 
 export default function HomeScreen() {
 	const router = useRouter();
 
 	const [searchQuery, setSearchQuery] = React.useState<string>("");
 	const [postText, setPostText] = useState("");
-	const [dummyPostList, setDummyPostList] = useState(fakePostsData);
+	const [postList, setPostList] = useState<DashboardPost[]>([]);
+
+	useEffect(() => {
+		const getDashboardPostData = async () => {
+			const dashboardPosts = await getDashboardPosts();
+			if (dashboardPosts) {
+				setPostList(dashboardPosts!);
+			}
+		};
+		getDashboardPostData();
+	}, []);
 
 	const currentUser = {
 		user: "currentUser",
@@ -29,15 +41,16 @@ export default function HomeScreen() {
 
 	const handlePostSubmit = () => {
 		if (postText.trim()) {
-			setDummyPostList([
+			setPostList([
 				{
 					user: "currentUser",
 					userProfile: "https://via.placeholder.com/30x30",
 					title: "New Post",
 					caption: postText,
 					mediaLinks: [],
+					createdAt: new Date(),
 				},
-				...dummyPostList,
+				...postList,
 			]);
 			setPostText("");
 		}
@@ -105,7 +118,7 @@ export default function HomeScreen() {
 
 			{/* List of Posts */}
 			<View style={[styles.viewContainer, styles.postsContainer]}>
-				{dummyPostList.map((post, index) => (
+				{postList.map((post, index) => (
 					<PostCard key={index} post={post} />
 				))}
 			</View>
